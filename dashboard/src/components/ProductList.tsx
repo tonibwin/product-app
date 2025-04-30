@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ProductApiService, { SortBy } from "../services/product-api-service";
 import { Products } from "../interfaces/product"; 
+import ProductCard from "./ProductCard/ProductCard";
 
-const ProductList: React.FC = () => {
+const ProductList = () => {
     const [products, setProducts] = useState<Products | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
@@ -34,8 +35,8 @@ const ProductList: React.FC = () => {
         <div>
             <h1>Product List</h1>
             <ul>
-                {products?.data.items.map((product) => (
-                    <li key={product.id}>{product.name}</li>
+                {products?.data.items.map((item) => (
+                    <ProductCard item={item} />
                 ))}
             </ul>
         </div>

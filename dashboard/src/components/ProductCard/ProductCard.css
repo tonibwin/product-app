@@ -1,0 +1,25 @@
+.circle-container {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border : 2px solid black;
+    text-align: center;
+}
+
+.product-card {
+    border: 2px solid black;
+    width: 130px;
+    padding: 10px;
+    font-size: 12px;
+}
+
+.product-image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.product-details {
+    display: flex; 
+    justify-content: space-between;
+}

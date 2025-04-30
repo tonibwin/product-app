@@ -27,7 +27,7 @@ const ProductCard = ({item}: ProductCardProps) => {
                 <div>{item?.name}</div>
                 <div>Price : ${item?.price}</div>
             </div>
-            <div className="vertical-spacing-sm medium-font-weight">
+            <div className="vertical-spacing-sm medium-font-weight align-bottom">
                 <div className="product-details">
                     <span>Total Reviews: </span>
                     <span>{item?.totalreview}1</span>

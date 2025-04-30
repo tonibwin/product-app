@@ -2,6 +2,8 @@ package products
 
 type Products struct {
     Product Product `json:"products"`
+    Page int `json:"page"`
+    Limit int `json:"limit"`
 }
 
 type Product struct {

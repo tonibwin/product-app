@@ -8,5 +8,5 @@ cd ../api && go run main.go &
 echo "Starting React server..."
 cd ../dashboard && npm run start
 
-# Wait for both to complete (npm start will block, go server is in background)
+# Wait for both to complete
 wait

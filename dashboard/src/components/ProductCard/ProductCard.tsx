@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import './ProductCard.css';
 import { Item } from "../../interfaces/product";
 
@@ -30,11 +29,11 @@ const ProductCard = ({item}: ProductCardProps) => {
             <div className="vertical-spacing-sm medium-font-weight align-bottom">
                 <div className="product-details">
                     <span>Total Reviews: </span>
-                    <span>{item?.totalreview}1</span>
+                    <span>{item?.totalReviews}</span>
                 </div>
                 <div className="product-details">
                     <span>Rating: </span>
-                    <span>{item?.Rating}</span>
+                    <span>{item?.rating}</span>
                 </div>
             </div>
         </div>

@@ -67,12 +67,8 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
         http.Error(w, "Failed to get products", http.StatusInternalServerError)
         return
     }
-    mockProducts.Page = page
-    mockProducts.Limit = limit
     items := mockProducts.Product.Data.Items
 
-
-    // Validate that values are parsable 
     for _, item := range items {
         if _, err := strconv.Atoi(item.TotalReviews); err != nil {
             http.Error(w, "Unable to parse TotalReviews to integer", http.StatusBadRequest)
@@ -105,18 +101,19 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 
     offset := (page - 1) * limit
     end := offset + limit
-    if end > len(items) {
+    if end >= len(items) {
         end = len(items)
-    } 
+        mockProducts.LastPage = true
+    } else {
+        mockProducts.LastPage = false
+    }
     mockProducts.Product.Data.Items = items[offset : end]
-
 
     w.Header().Set("Content-Type", "application/json")
     json.NewEncoder(w).Encode(mockProducts)
 }
 
 func main() {
-    fmt.Println("Starting...")
     r := mux.NewRouter()
     r.HandleFunc("/products", getProducts).Methods("GET")
 

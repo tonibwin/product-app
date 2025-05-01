@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import { Divider } from '@mui/material';
 import './Header.css';
 
@@ -8,7 +7,7 @@ const Header = () => {
             <div className="header-background">
                 <span className="header-text-style">DASHBOARD</span>
             </div>
-            <Divider sx={{ backgroundColor: "#000000" }}/>
+            <Divider sx={{ backgroundColor: "#000000", marginBottom: "10px" }}/>
         </>
     );
 };

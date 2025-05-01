@@ -1,5 +1,6 @@
 export interface ProductsWrapper {
     "products": Products;
+    "lastPage": boolean;
 }
 export interface Products{
     "data": Data;
@@ -13,8 +14,8 @@ export interface Item {
     "id": string;
     "name": string;
     "price": string;
-    "totalreview": string;
-    "Rating": string;
+    "totalReviews": string;
+    "rating": string;
 }
 
 export default ProductsWrapper;

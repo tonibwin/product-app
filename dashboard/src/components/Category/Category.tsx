@@ -1,82 +1,79 @@
-import React, { useEffect, useState } from "react";
-import ProductApiService, { GetProductsProps, SortBy } from "../../services/product-api-service";
-import { Products } from "../../interfaces/product"; 
+import "./Category.css";
+import ProductsWrapper from "../../interfaces/product"; 
 import ProductCard from "../ProductCard/ProductCard";
-import ArrowLeftOutlinedIcon from '@mui/icons-material/ArrowLeftOutlined';
-import './Category.css';
+import ProductApiService, { GetProductsProps, SortBy } from "../../services/product-api-service";
+import { useEffect, useState } from "react";
 
-const Category = () => {
-    const [mostReviewed, setMostReviewed] = useState<Products | null>(null);
-    const [mostReviewedPage, setMostReviewedPage] = useState<number>(1);
-    
-    const [bestRated, setBestRated] = useState<Products | null>(null);
-    const [bestRatedPage, setBestRatedPage] = useState<number>(1);
-    
+interface CategoryProps {
+    label: string
+    category: SortBy
+}
+
+const Category = (props: CategoryProps) => {
+    const [productsWrapper, setProductsWrapper] = useState<ProductsWrapper | null>(null);
+    const [page, setPage] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-
+    
     const limit = 5;
 
-    useEffect(() => {
-        const fetchMostReviewed = async () => {
+    useEffect(() => { 
+        const fetchProducts = async (getPage: number) => {
             try {
                 const productsWrapper = await ProductApiService.getProducts({
-                    sortBy: SortBy.MOSTREVIEWED,
-                    page: mostReviewedPage,
+                    sortBy: props.category,
+                    page: getPage,
                     limit: limit,
                 } as GetProductsProps);
-                setMostReviewed(productsWrapper.products);
+                setProductsWrapper(productsWrapper);
                 setLoading(false);
             } catch (err) {
-                setError("Failed to fetch most reviewed products");
+                setError("Failed to fetch products");
                 setLoading(false);
             }
         };
-        const fetchBestRated = async () => {
-            try {
-                const productsWrapper = await ProductApiService.getProducts({
-                    sortBy: SortBy.BESTRATED,
-                    page: bestRatedPage,
-                    limit: limit,
-                } as GetProductsProps);
-                setBestRated(productsWrapper.products);
-                setLoading(false);
-            } catch (err) {
-                setError("Failed to fetch best rated products");
-                setLoading(false);
-            }
-        };
-
-        fetchMostReviewed();
-        fetchBestRated();
-    }, []);
+        
+        fetchProducts(page); 
+    }, [page, props.category]);
 
     if (loading) {
         return <div>Loading products...</div>
     }
 
     if (error) {
-        return <div>{error}</div>;
+        return <div>Unable to load products</div>
     }
 
     return (
-        <div>
-            <h1>Most Reviewed</h1>
-            <div className="category-pagination">
-                <div className="arrow-left" />
-                <div className="category-container">
-                    {mostReviewed?.data.items.map((item) => (
-                        <ProductCard item={item} />
-                    ))}
-                </div>
-                <div className="arrow-right" />
-            </div>
+        <div className="center-horizontally">
+            <div>            
+                <div className="category-label">{props.label}</div>
+                <div className="category-pagination">
+                    {/* left arrow */}
+                    <div
+                        className={`arrow-left ${page === 1 ? "disabled" : ""}`}
+                        onClick={() => {
+                            if (page > 1) {
+                                setPage(page - 1);
+                            }
+                        }}
+                    />
 
-            <h1>BestRated</h1>
-            <div className="category-container">
-                {bestRated?.data.items.map((item) => (
-                    <ProductCard item={item} />
-                ))}
+                    {/* products */}
+                    <div className="product-container">
+                        {productsWrapper?.products.data.items.map((item) => (
+                            <ProductCard item={item} />
+                        ))}
+                    </div>
+
+                    {/* right arrow */}
+                    <div 
+                        className={`arrow-right ${productsWrapper?.lastPage ? "disabled" : ""}`} 
+                        onClick={() => {
+                            if (!productsWrapper?.lastPage) setPage(page + 1) 
+                        }}
+                    />
+                </div>
             </div>
         </div>
     );

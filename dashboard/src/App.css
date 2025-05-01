@@ -2,6 +2,11 @@
   text-align: center;
 }
 
+.center-horizontally {
+  display: flex;
+  justify-content: center;
+}
+
 .vertical-spacing-sm {
   display: flex;
   flex-direction: column;
